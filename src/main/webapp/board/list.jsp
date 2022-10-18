@@ -28,7 +28,6 @@
 			</div>
 		</div>
 	</c:forEach>
-	
 
 	<br />
 	<ul class="pagination justify-content-center">
