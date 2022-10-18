@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="4.0"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
+	<description>MySQL Test App</description>
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/TestDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<filter>
+		<filter-name>charConfig</filter-name>
+		<filter-class>config.CharConfig</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>forbiddenUrlConfig</filter-name>
+		<filter-class>config.ForbiddenUrlConfig</filter-class>
+	</filter>
+
+	<!-- 매핑순서 1 -->
+	<filter-mapping>
+		<filter-name>charConfig</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 매핑순서 2 -->
+	<filter-mapping>
+		<filter-name>forbiddenUrlConfig</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+
+</web-app>
