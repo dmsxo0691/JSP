@@ -10,6 +10,27 @@ import config.DB;
 import domain.board.dto.SaveReqDto;
 
 public class BoardDao {
+
+	public int count() {
+		String sql = "SELECT count(*), id FROM board";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally { // 무조건 실행
+			DB.close(conn, pstmt, rs);
+		}
+		return -1;
+	}
+
 	public List<Board> findAll(int page) {
 		String sql = "SELECT * FROM  board ORDER BY id DESC LIMIT ?, 4";
 		Connection conn = DB.getConnection();
@@ -18,7 +39,7 @@ public class BoardDao {
 		List<Board> boards = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, page*4);
+			pstmt.setInt(1, page * 4);
 			rs = pstmt.executeQuery();
 
 			// Persistence API
