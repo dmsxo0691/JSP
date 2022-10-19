@@ -19,7 +19,8 @@ public class ForbiddenUrlConfig implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
-		if (request.getRequestURI().equals("/JSP/") || request.getRequestURI().equals("/JSP/index.jsp")) {
+		if (request.getRequestURI().equals("/JSP/") || request.getRequestURI().equals("/JSP/index.jsp")
+				|| request.getRequestURI().equals("/JSP/user/jusoPopup.jsp")) {
 			chain.doFilter(request, response);
 		} else {
 			PrintWriter out = response.getWriter();

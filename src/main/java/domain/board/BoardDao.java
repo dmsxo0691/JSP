@@ -10,14 +10,15 @@ import config.DB;
 import domain.board.dto.SaveReqDto;
 
 public class BoardDao {
-	public List<Board> findAll() {
-		String sql = "SELECT * FROM  board ORDER BY id DESC";
+	public List<Board> findAll(int page) {
+		String sql = "SELECT * FROM  board ORDER BY id DESC LIMIT ?, 4";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Board> boards = new ArrayList<>();
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, page*4);
 			rs = pstmt.executeQuery();
 
 			// Persistence API
