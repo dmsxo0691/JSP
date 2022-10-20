@@ -23,7 +23,7 @@
 		<div class="card col-md-12 m-2">
 			<div class="card-body">
 				<h4 class="card-title">${board.title}</h4>
-				<a href="/blog/board?cmd=detail&id=${board.id}"
+				<a href="/JSP/board?cmd=detail&id=${board.id}"
 					class="btn btn-primary">상세보기</a>
 			</div>
 		</div>
