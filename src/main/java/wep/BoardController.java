@@ -1,6 +1,5 @@
 package wep;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,15 +15,16 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import domain.board.Board;
-import domain.board.dto.DeleteReqDto;
-import domain.board.dto.DeleteRespDto;
+import domain.board.dto.CommonRespDto;
 import domain.board.dto.DetailRespDto;
 import domain.board.dto.SaveReqDto;
+import domain.board.dto.UpdateReqDto;
+import domain.reply.Reply;
 import domain.user.User;
 import service.BoardService;
+import service.ReplyService;
 import util.Script;
 
-// http://localhost:8080/blog/board
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class BoardController extends HttpServlet {
 			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
 		BoardService boardService = new BoardService();
-		// http://localhost:8080/blog/board?cmd=saveForm
+		ReplyService replyService = new ReplyService();
 		HttpSession session = request.getSession();
 		if (cmd.equals("saveForm")) {
 			User principal = (User) session.getAttribute("principal");
@@ -90,10 +90,12 @@ public class BoardController extends HttpServlet {
 		} else if (cmd.equals("detail")) {
 			int id = Integer.parseInt(request.getParameter("id"));
 			DetailRespDto dto = boardService.글상세보기(id);
+			List<Reply> replys = replyService.글목록보기(id);
 			if (dto == null) {
 				Script.back(response, "상세보기에 실패하였습니다");
 			} else {
 				request.setAttribute("dto", dto);
+				request.setAttribute("replys", replys);
 				RequestDispatcher dis = request.getRequestDispatcher("board/detail.jsp");
 				dis.forward(request, response);
 			}
@@ -101,27 +103,60 @@ public class BoardController extends HttpServlet {
 		} else if (cmd.equals("delete")) {
 
 			// 1. 요청 받은 json 데이터를 자바 오브젝트로 파싱
-			BufferedReader br = request.getReader();
-			String data = br.readLine();
-
-			Gson gson = new Gson();
-			DeleteReqDto dto = gson.fromJson(data, DeleteReqDto.class);
+			int id = Integer.parseInt(request.getParameter("id"));
 
 			// 2. DB에서 id값으로 글 삭제
-			int result = boardService.글삭제(dto.getBoardId());
+			int result = boardService.글삭제(id);
 
 			// 3. 응답할 json 데이터를 생성
-			DeleteRespDto respDto = new DeleteRespDto();
-			if (result == 1) {
-				respDto.setStatus("ok");
-			} else {
-				respDto.setStatus("fail");
-			}
-			String respData = gson.toJson(respDto);
+			CommonRespDto<String> commonRespDto = new CommonRespDto<>();
+			commonRespDto.setStatusCode(result);
+			commonRespDto.setData("성공");
+
+			Gson gson = new Gson();
+			String respData = gson.toJson(commonRespDto);
 			System.out.println("respData : " + respData);
 			PrintWriter out = response.getWriter();
 			out.print(respData);
 			out.flush();
+		} else if (cmd.equals("updateForm")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			DetailRespDto dto = boardService.글상세보기(id);
+			request.setAttribute("dto", dto);
+			RequestDispatcher dis = request.getRequestDispatcher("board/updateForm.jsp");
+			dis.forward(request, response);
+		} else if (cmd.equals("update")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+
+			UpdateReqDto dto = new UpdateReqDto();
+			dto.setId(id);
+			dto.setTitle(title);
+			dto.setContent(content);
+
+			int result = boardService.글수정(dto);
+
+			if (result == 1) {
+				response.sendRedirect("/JSP/board?cmd=detail&id=" + id);
+			} else {
+				Script.back(response, "글 수정에 실패하였습니다.");
+			}
+		} else if (cmd.equals("search")) {
+			String keyword = request.getParameter("keyword");
+			int page = Integer.parseInt(request.getParameter("page"));
+
+			List<Board> boards = boardService.글검색(keyword, page);
+			request.setAttribute("boards", boards);
+
+			int boardCount = boardService.글개수(keyword);
+			int lastPage = (boardCount - 1) / 4; // 2/4 = 0, 3/4 = 0, 4/4 = 1, 9/4 = 2 ( 0page, 1page, 2page)
+			double currentPosition = (double) page / (lastPage) * 100;
+
+			request.setAttribute("lastPage", lastPage);
+			request.setAttribute("currentPosition", currentPosition);
+			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
+			dis.forward(request, response);
 		}
 	}
 }

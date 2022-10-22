@@ -63,6 +63,7 @@
 					alert('유저네임이 중복되었습니다.')
 				} else {
 					isChecking = true;
+					$("#username").attr("readonly", "readonly");
 					alert("해당 유저네임을 사용할 수 있습니다.")
 				}
 			});
