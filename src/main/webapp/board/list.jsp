@@ -6,7 +6,7 @@
 
 	<div class="m-2">
 		<form class="form-inline d-flex justify-content-end"
-			action="/blog/board">
+			action="/JSP/board">
 			<input type="hidden" name="cmd" value="search" /> <input
 				type="hidden" name="page" value="0" /> <input type="text"
 				name="keyword" class="form-control mr-sm-2" placeholder="Search">
