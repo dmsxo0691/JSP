@@ -151,7 +151,7 @@ public class BoardDao {
 	}
 
 	public int count() {
-		String sql = "SELECT count(*), FROM board";
+		String sql = "SELECT count(*) FROM board";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
