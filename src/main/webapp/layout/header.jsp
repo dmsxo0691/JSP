@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Cos 블로그</title>
+<title>시월의 공간</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -22,10 +22,15 @@
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<script src="https://kit.fontawesome.com/e06bccf31a.js"
+	crossorigin="anonymous"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-		<a class="navbar-brand" href="<%=request.getContextPath()%>/index.jsp">블로그</a>
+	<div class="navbar_logo">
+        <i class="fa-solid fa-kiwi-bird" style="font-size:25px; color:#d49466"></i>
+		<a class="navbar-brand" href="<%=request.getContextPath()%>/index.jsp">시월의 공간</a>
+      </div>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
