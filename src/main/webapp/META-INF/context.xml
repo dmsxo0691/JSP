@@ -6,5 +6,5 @@
 		type="javax.sql.DataSource" maxTotal="100" maxIdle="30"
 		maxWaitMillis="10000" username="root" password="1234"
 		driverClassName="com.mysql.cj.jdbc.Driver"
-		url="jdbc:mysql://localhost:3307/blog?serverTimezone=Asia/Seoul" />
+		url="jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul" />
 </Context>
