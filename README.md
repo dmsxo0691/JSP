@@ -11,7 +11,7 @@
 
 - 📫 Email **dmsxo0691@gmail.com**
 
-![Bootstrap Example - Chrome 2022-12-27 11-01-07](https://user-images.githubusercontent.com/110580287/209599644-da69e0f1-e4bc-432d-9660-7bb20902c21f.gif)
+![KakaoTalk_20221227_111823603](https://user-images.githubusercontent.com/110580287/209606126-663bd412-5261-4da1-8291-bffdede86d18.gif)
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
